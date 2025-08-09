@@ -1,0 +1,5 @@
+hxcpp=4.3.2
+hxcpp_api_level=430
+hxcpp_smart_strings=1
+no_console=1
+hxcpp=C:\Users\cmalm\OneDrive\Documents\Github\Grounded-Groove\.haxelib\hxcpp/4,3,2/
