@@ -112,8 +112,6 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
-	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
 
@@ -135,27 +133,10 @@ class TitleState extends MusicBeatState
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
-		gfDance = new FlxSprite(gfPosition.x, gfPosition.y);
-		gfDance.antialiasing = ClientPrefs.data.antialiasing;
-		
 		if(ClientPrefs.data.shaders)
 		{
 			swagShader = new ColorSwap();
-			gfDance.shader = swagShader.shader;
 			logoBl.shader = swagShader.shader;
-		}
-		
-		gfDance.frames = Paths.getSparrowAtlas(characterImage);
-		if(!useIdle)
-		{
-			gfDance.animation.addByIndices('danceLeft', animationName, danceLeftFrames, "", 24, false);
-			gfDance.animation.addByIndices('danceRight', animationName, danceRightFrames, "", 24, false);
-			gfDance.animation.play('danceRight');
-		}
-		else
-		{
-			gfDance.animation.addByPrefix('idle', animationName, 24, false);
-			gfDance.animation.play('idle');
 		}
 
 
@@ -197,7 +178,6 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.data.antialiasing;
 
-		add(gfDance);
 		add(logoBl); //FNF Logo
 		add(titleText); //"Press Enter to Begin" text
 		add(credGroup);
@@ -503,19 +483,6 @@ class TitleState extends MusicBeatState
 
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
-
-		if(gfDance != null)
-		{
-			danceLeft = !danceLeft;
-			if(!useIdle)
-			{
-				if (danceLeft)
-					gfDance.animation.play('danceRight');
-				else
-					gfDance.animation.play('danceLeft');
-			}
-			else if(curBeat % 2 == 0) gfDance.animation.play('idle', true);
-		}
 
 		if(!closedState)
 		{

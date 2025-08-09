@@ -55,7 +55,7 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = 0.25;
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('mainmenu/bg'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('grounded/main_menu/bg'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(FlxG.width, FlxG.height + 120);
@@ -67,11 +67,12 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(Paths.image('grounded/main_menu/bg'));
 		magenta.antialiasing = ClientPrefs.data.antialiasing;
 		magenta.scrollFactor.set(0, yScroll);
-		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
+		magenta.setGraphicSize(FlxG.width, FlxG.height + 120);
 		magenta.updateHitbox();
+		magenta.flipX = true;
 		magenta.screenCenter();
 		magenta.visible = false;
 		magenta.color = 0xFFfd719b;
@@ -82,9 +83,8 @@ class MainMenuState extends MusicBeatState
 
 		for (num => option in optionShit)
 		{
-			var item:FlxSprite = createMenuItem(option, 0, (num * 140) + 90);
+			var item:FlxSprite = createMenuItem(option, 100, (num * 140) + 90); // Left align at x = 100
 			item.y += (4 - optionShit.length) * 70; // Offsets for when you have anything other than 4 items
-			item.screenCenter(X);
 		}
 
 		if (leftOption != null)
