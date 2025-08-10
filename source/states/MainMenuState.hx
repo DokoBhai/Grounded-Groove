@@ -130,10 +130,8 @@ class MainMenuState extends MusicBeatState
 	function createMenuItem(name:String, x:Float, y:Float):FlxSprite
 	{
 		var menuItem:FlxSprite = new FlxSprite(x, y);
-		menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_$name');
-		menuItem.animation.addByPrefix('idle', '$name idle', 24, true);
-		menuItem.animation.addByPrefix('selected', '$name selected', 24, true);
-		menuItem.animation.play('idle');
+		menuItem.loadGraphic(Paths.grounded('images/${name}_off.png'));
+		menuItem.scale.set(0.5, 0.5); // Scale to half size
 		menuItem.updateHitbox();
 		
 		menuItem.antialiasing = ClientPrefs.data.antialiasing;
@@ -358,9 +356,14 @@ class MainMenuState extends MusicBeatState
 		curSelected = FlxMath.wrap(curSelected + change, 0, optionShit.length - 1);
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
-		for (item in menuItems)
+		// Set all items to their idle/off state
+		for (i in 0...menuItems.members.length)
 		{
-			item.animation.play('idle');
+			var item = menuItems.members[i];
+			var optionName = optionShit[i];
+			item.loadGraphic(Paths.grounded('images/${optionName}_off.png'));
+			item.scale.set(0.4, 0.4); 
+			item.updateHitbox();
 			item.centerOffsets();
 		}
 
@@ -369,13 +372,32 @@ class MainMenuState extends MusicBeatState
 		{
 			case CENTER:
 				selectedItem = menuItems.members[curSelected];
+				// Load the selected/on state for the current item
+				var selectedOptionName = optionShit[curSelected];
+				selectedItem.loadGraphic(Paths.grounded('images/${selectedOptionName}_on.png'));
+				selectedItem.scale.set(0.4, 0.4); // Maintain scale for selected item
+				selectedItem.updateHitbox();
 			case LEFT:
 				selectedItem = leftItem;
+				if(selectedItem != null)
+				{
+					selectedItem.loadGraphic(Paths.grounded('images/${leftOption}_on.png'));
+					selectedItem.scale.set(0.4, 0.4);
+					selectedItem.updateHitbox();
+				}
 			case RIGHT:
 				selectedItem = rightItem;
+				if(selectedItem != null)
+				{
+					selectedItem.loadGraphic(Paths.grounded('images/${rightOption}_on.png'));
+					selectedItem.scale.set(0.4, 0.4);
+					selectedItem.updateHitbox();
+				}
 		}
-		selectedItem.animation.play('selected');
-		selectedItem.centerOffsets();
-		camFollow.y = selectedItem.getGraphicMidpoint().y;
+		if(selectedItem != null)
+		{
+			selectedItem.centerOffsets();
+			camFollow.y = selectedItem.getGraphicMidpoint().y;
+		}
 	}
 }

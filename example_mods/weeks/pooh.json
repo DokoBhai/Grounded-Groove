@@ -1,0 +1,36 @@
+{
+	"storyName": "pooh",
+	"difficulties": "",
+	"hideFreeplay": false,
+	"weekBackground": "stage",
+	"weekBefore": "tutorial",
+	"startUnlocked": true,
+	"weekCharacters": [
+		"bf",
+		"bf",
+		"gf"
+	],
+	"hideStoryMode": false,
+	"songs": [
+		[
+			"sunny-steps",
+			"pooh",
+			[
+				235,
+				195,
+				20
+			]
+		],
+		[
+			"golden-hues",
+			"pooh",
+			[
+				235,
+				195,
+				20
+			]
+		]
+	],
+	"weekName": "Custom Week",
+	"hiddenUntilUnlocked": false
+}
