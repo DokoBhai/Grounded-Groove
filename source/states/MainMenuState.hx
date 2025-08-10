@@ -22,6 +22,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var leftItem:FlxSprite;
 	var rightItem:FlxSprite;
+	var grounded_logo:FlxSprite;
 
 	//Centered/Text options
 	var optionShit:Array<String> = [
@@ -64,6 +65,16 @@ class MainMenuState extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+		grounded_logo = new FlxSprite().loadGraphic(Paths.grounded('images/grr.png'));
+		grounded_logo.scale.set(0.3, 0.3);
+		grounded_logo.antialiasing = ClientPrefs.data.antialiasing;
+		grounded_logo.updateHitbox(); // This is important after scaling
+		grounded_logo.x = 10; // Small margin from left edge
+		grounded_logo.y = 10; // Small margin from top edge
+		grounded_logo.scrollFactor.set(0, 0); 
+		grounded_logo.color = 0xFFe9cda5; 
+		add(grounded_logo);
+
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
@@ -83,7 +94,7 @@ class MainMenuState extends MusicBeatState
 
 		for (num => option in optionShit)
 		{
-			var item:FlxSprite = createMenuItem(option, 100, (num * 140) + 90); // Left align at x = 100
+			var item:FlxSprite = createMenuItem(option, 10, (num * 140) + 200 ); // Left align at x = 100
 			item.y += (4 - optionShit.length) * 70; // Offsets for when you have anything other than 4 items
 		}
 
@@ -362,7 +373,7 @@ class MainMenuState extends MusicBeatState
 			var item = menuItems.members[i];
 			var optionName = optionShit[i];
 			item.loadGraphic(Paths.grounded('images/${optionName}_off.png'));
-			item.scale.set(0.4, 0.4); 
+			item.scale.set(0.4, 0.4); // Maintain scale after loading new graphic
 			item.updateHitbox();
 			item.centerOffsets();
 		}

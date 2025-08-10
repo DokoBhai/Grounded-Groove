@@ -25,6 +25,8 @@ class StoryMenuState extends MusicBeatState
 	var curDifficulty:Int = 1;
 
 	var txtWeekTitle:FlxText;
+	var bgSprite:FlxSprite;
+	var omnSprite:FlxSprite;
 
 	private static var curWeek:Int = 0;
 
@@ -77,11 +79,18 @@ class StoryMenuState extends MusicBeatState
 
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 
+		bgSprite = new FlxSprite(0, 0);
+		add(bgSprite);
+
+		omnSprite = new FlxSprite();
+		omnSprite.loadGraphic(Paths.grounded('images/omn.png'));
+		omnSprite.antialiasing = ClientPrefs.data.antialiasing;
+		omnSprite.screenCenter(X);
+		omnSprite.y = 20;
+		add(omnSprite);
+
 		grpWeekText = new FlxTypedGroup<MenuItem>();
 		add(grpWeekText);
-
-		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
-		add(blackBarThingie);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
@@ -197,8 +206,6 @@ class StoryMenuState extends MusicBeatState
 				changeWeek(-FlxG.mouse.wheel);
 			}
 
-			// Difficulty controls removed - always use hard
-
 			if(FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
@@ -208,7 +215,6 @@ class StoryMenuState extends MusicBeatState
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
-				//FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			else if (controls.ACCEPT)
 				selectWeek();
@@ -333,6 +339,19 @@ class StoryMenuState extends MusicBeatState
 		var leName:String = Language.getPhrase('storyname_${leWeek.fileName}', leWeek.storyName);
 		txtWeekTitle.text = leName.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
+
+		try {
+			var bgPath = Paths.grounded('images/background/${leWeek.fileName}.png');
+			trace('Trying to load background from: $bgPath');
+			bgSprite.loadGraphic(bgPath);
+			bgSprite.antialiasing = ClientPrefs.data.antialiasing;
+			bgSprite.setGraphicSize(FlxG.width, FlxG.height);
+			bgSprite.screenCenter();
+			bgSprite.visible = true;
+		} catch(e:Dynamic) {
+			trace('Could not load background for week: ${leWeek.fileName}, Error: $e');
+			bgSprite.visible = false;
+		}
 
 		var unlocked:Bool = !weekIsLocked(leWeek.fileName);
 		for (num => item in grpWeekText.members)
