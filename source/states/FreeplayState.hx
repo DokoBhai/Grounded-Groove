@@ -30,11 +30,12 @@ class FreeplayState extends MusicBeatState
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
 	var diffText:FlxText;
+	var omnSprite:FlxSprite;
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
-
+	
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
@@ -107,6 +108,13 @@ class FreeplayState extends MusicBeatState
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 		bg.screenCenter();
+
+		omnSprite = new FlxSprite();
+		omnSprite.loadGraphic(Paths.grounded('images/omn.png'));
+		omnSprite.antialiasing = ClientPrefs.data.antialiasing;
+		omnSprite.screenCenter(X);
+		omnSprite.y = 20;
+		add(omnSprite);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
