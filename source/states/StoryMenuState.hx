@@ -82,6 +82,12 @@ class StoryMenuState extends MusicBeatState
 		bgSprite = new FlxSprite(0, 0);
 		add(bgSprite);
 
+		// Centered box sprite
+		var midBox:FlxSprite = new FlxSprite();
+		midBox.makeGraphic(360, 220, 0xAA000000);
+		midBox.screenCenter();
+		add(midBox);
+
 		omnSprite = new FlxSprite();
 		omnSprite.loadGraphic(Paths.grounded('images/omn.png'));
 		omnSprite.antialiasing = ClientPrefs.data.antialiasing;
